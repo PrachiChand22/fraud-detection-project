@@ -15,19 +15,14 @@ A model that's 99.8% accurate could still be useless if it just predicts
 ## Results
 - Baseline PR-AUC: 0.7176
 - XGBoost PR-AUC: 0.8791
-- Confusion matrix:
-                Predicted Normal | Predicted Fraud
-Actual Normal:             56852 | 12
-Actual Fraud:                 17 | 81
-
-Caught 81 out of 98 actual fraud cases, with 12 false alarms.
+- Caught 81 out of 98 actual fraud cases, with 12 false alarms.
 
 ## Explainability
 ![SHAP Summary](shap_summary.png)
 The chart above shows which features most influenced the model's decisions.
 
 ## Live Demo
-[Add your Streamlit Cloud link here once deployed]
+https://fraud-detection-project-vizwkddkxbnb73bphmjttc.streamlit.app/
 
 ## What I'd improve next
 - Try SMOTE oversampling as an alternative to class weighting
