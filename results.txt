@@ -1,0 +1,53 @@
+Loading data...
+
+Shape of dataset (rows, columns): (284807, 31)
+
+How many fraud vs non-fraud transactions?
+Class
+0    284315
+1       492
+Name: count, dtype: int64
+
+Fraud percentage: 0.1727%
+
+Training rows: 227845 | Test rows: 56962
+
+Training baseline (Logistic Regression)...
+
+--- Baseline (Logistic Regression) results ---
+              precision    recall  f1-score   support
+
+           0     0.9998    0.9670    0.9831     56864
+           1     0.0453    0.9082    0.0862        98
+
+    accuracy                         0.9669     56962
+   macro avg     0.5226    0.9376    0.5347     56962
+weighted avg     0.9982    0.9669    0.9816     56962
+
+Baseline PR-AUC: 0.7176
+
+Training XGBoost...
+
+--- XGBoost results ---
+              precision    recall  f1-score   support
+
+           0     0.9997    0.9998    0.9997     56864
+           1     0.8710    0.8265    0.8482        98
+
+    accuracy                         0.9995     56962
+   macro avg     0.9353    0.9132    0.9240     56962
+weighted avg     0.9995    0.9995    0.9995     56962
+
+XGBoost PR-AUC: 0.8791  (compare to baseline: 0.7176)
+
+Confusion matrix:
+                Predicted Normal | Predicted Fraud
+Actual Normal:             56852 | 12
+Actual Fraud:                 17 | 81
+
+Calculating SHAP values (this explains WHY the model decides what it decides)...
+Saved shap_summary.png - this shows which features matter most overall
+
+Saved trained model to fraud_model.pkl
+
+Done! Next: run the Streamlit app with:  streamlit run app.py
