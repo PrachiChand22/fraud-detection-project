@@ -1,16 +1,3 @@
-"""
-app.py
-------
-This is Steps 10-11: the Streamlit dashboard.
-It loads the model you already trained (fraud_model.pkl) and lets
-you interactively test transactions and see WHY they were flagged.
-
-HOW TO RUN THIS:
-  1. Make sure you've already run train.py at least once (so fraud_model.pkl exists)
-  2. In your terminal, run:  streamlit run app.py
-  3. It will open a browser tab automatically at localhost:8501
-"""
-
 import streamlit as st
 import pandas as pd
 import joblib
@@ -19,10 +6,7 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Fraud Detection Demo", layout="wide")
 
-# -----------------------------
-# Load the trained model
-# -----------------------------
-@st.cache_resource  # this means: only load the model once, not on every click
+@st.cache_resource
 def load_model():
     return joblib.load("fraud_model.pkl")
 
@@ -35,19 +19,15 @@ st.write(
     "or upload a row from the test set, to see a live prediction."
 )
 
-# -----------------------------
 # Option A: Upload a CSV row
-# -----------------------------
 st.subheader("Option 1: Upload a transaction (CSV row)")
 uploaded_file = st.file_uploader(
     "Upload a single-row CSV with the same columns as the training data (minus 'Class')",
     type="csv",
 )
 
-# -----------------------------
 # Option B: Manual entry (simplified - Amount and Time only,
-# with the anonymized V1-V28 features defaulted to 0 for simplicity)
-# -----------------------------
+
 st.subheader("Option 2: Quick manual test (simplified)")
 col1, col2 = st.columns(2)
 with col1:
@@ -57,9 +37,8 @@ with col2:
 
 run_manual = st.button("Predict (manual entry)")
 
-# -----------------------------
 # Prediction logic
-# -----------------------------
+
 def predict_and_explain(row_df):
     """Takes a single-row dataframe with the correct columns, returns prediction + SHAP explanation."""
     prediction = model.predict(row_df)[0]
@@ -87,12 +66,6 @@ if uploaded_file is not None:
         predict_and_explain(row_df)
 
 if run_manual:
-    # NOTE: this is simplified for demo purposes. The model expects all
-    # 30 columns (Time, V1-V28, Amount). Here we default the anonymized
-    # V1-V28 columns to 0 since we don't have real values for a manually
-    # entered transaction, and only vary Time/Amount for illustration.
-    # For a fully accurate manual demo, consider letting users pick a
-    # real row from the test set instead and tweak Amount/Time on it.
     columns = ["Time"] + [f"V{i}" for i in range(1, 29)] + ["Amount"]
     values = [time] + [0.0] * 28 + [amount]
     row_df = pd.DataFrame([values], columns=columns)
